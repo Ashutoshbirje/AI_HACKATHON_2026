@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/Hackethon_Starter_Pack/static/css/main.964fdded.css",
+    "main.js": "/Hackethon_Starter_Pack/static/js/main.638e15aa.js",
+    "index.html": "/Hackethon_Starter_Pack/index.html",
+    "main.964fdded.css.map": "/Hackethon_Starter_Pack/static/css/main.964fdded.css.map",
+    "main.638e15aa.js.map": "/Hackethon_Starter_Pack/static/js/main.638e15aa.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.964fdded.css",
+    "static/js/main.638e15aa.js"
+  ]
+}
