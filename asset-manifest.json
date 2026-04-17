@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/AI_HACKATHON_2026/static/css/main.964fdded.css",
-    "main.js": "/AI_HACKATHON_2026/static/js/main.638e15aa.js",
+    "main.js": "/AI_HACKATHON_2026/static/js/main.ad7c448d.js",
     "index.html": "/AI_HACKATHON_2026/index.html",
     "main.964fdded.css.map": "/AI_HACKATHON_2026/static/css/main.964fdded.css.map",
-    "main.638e15aa.js.map": "/AI_HACKATHON_2026/static/js/main.638e15aa.js.map"
+    "main.ad7c448d.js.map": "/AI_HACKATHON_2026/static/js/main.ad7c448d.js.map"
   },
   "entrypoints": [
     "static/css/main.964fdded.css",
-    "static/js/main.638e15aa.js"
+    "static/js/main.ad7c448d.js"
   ]
 }
