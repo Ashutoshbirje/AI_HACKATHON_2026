@@ -1,5 +1,57 @@
-.App {
-  text-align: center;
+:root {
+  --color-primary: #6C47FF;
+  --color-primary-light: #EDE9FF;
+  --color-primary-dark: #4f2fd6;
+  --color-navy: #1a2340;
+  --color-navy-light: #243054;
+  --color-bg: #f4f5f9;
+  --color-white: #ffffff;
+  --color-text-primary: #1a2340;
+  --color-text-secondary: #6b7280;
+  --color-text-muted: #9ca3af;
+  --color-border: #e5e7eb;
+  --color-success: #22c55e;
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
+  --color-info: #3b82f6;
+  --color-sidebar-bg: #1e1b4b;
+  --color-sidebar-text: #c4b5fd;
+  --color-sidebar-active: #6C47FF;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.10);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,0.14);
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --font-main: 'Outfit', 'Segoe UI', sans-serif;
 }
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
+body {
+  font-family: var(--font-main);
+  background: var(--color-bg);
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  font-family: var(--font-main);
+}
+
+input {
+  font-family: var(--font-main);
+  outline: none;
+}

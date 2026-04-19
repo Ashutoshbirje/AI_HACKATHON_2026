@@ -1,2 +1,9 @@
-
-# Important Notes 
+src/
+├── assets/
+│   ├── images/
+│   ├── icons/
+│   └── logo.png
+├── components/
+├── App.jsx
+├── App.css
+└── main.jsx
