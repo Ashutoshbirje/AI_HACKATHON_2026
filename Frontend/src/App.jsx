@@ -6,6 +6,10 @@ import Dashboard from './components/Dashboard/Dashboard';
 import Candidates from './components/Candidates/Candidates';
 import CandidateProfile from './components/CandidateProfile/CandidateProfile';
 import AIAssistant from './components/AIAssistant/AIAssistant';
+import Pipeline from './components/Pipeline/Pipeline';
+import Jobs from './components/Jobs/Jobs';
+import Reports from './components/Reports/Reports';
+import Settings from './components/Settings/Settings';
 import './App.css';
 
 function App() {
@@ -17,8 +21,12 @@ function App() {
         <Route path="/otp" element={<OTPPage />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/candidates" element={<Candidates />} />
+        <Route path="/pipeline" element={<Pipeline />} />
         <Route path="/candidates/:id" element={<CandidateProfile />} />
         <Route path="/ai-assistant" element={<AIAssistant />} />
+        <Route path="/jobs" element={<Jobs />} />
+<Route path="/reports" element={<Reports />} />
+<Route path="/settings" element={<Settings />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>

@@ -1,0 +1,24 @@
+.settings-main {
+  padding: 20px;
+}
+
+.settings-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 400px;
+}
+
+.settings-form input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.settings-form button {
+  background: #16a34a;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+}

@@ -219,3 +219,42 @@
   color: white;
   border-color: var(--color-primary);
 }
+
+.dropdown-menu {
+  position: absolute;
+  right: 0;
+  top: 30px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  width: 150px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  z-index: 10;
+}
+
+.dropdown-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 12px;
+  font-weight: 600;
+  border-bottom: 1px solid #eee;
+}
+
+.dropdown-close {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.dropdown-item {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background: #f1f5f9;
+}
+
+.dropdown-item.delete {
+  color: #dc2626;
+}
