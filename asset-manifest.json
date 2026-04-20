@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/AI_HACKATHON_2026/static/css/main.9b3258c2.css",
-    "main.js": "/AI_HACKATHON_2026/static/js/main.18bdeb93.js",
+    "main.css": "/AI_HACKATHON_2026/static/css/main.8b4fde46.css",
+    "main.js": "/AI_HACKATHON_2026/static/js/main.acf3f817.js",
     "static/media/Logo1.png": "/AI_HACKATHON_2026/static/media/Logo1.9a9ff58f7de1c36122b4.png",
     "static/media/Logo2.png": "/AI_HACKATHON_2026/static/media/Logo2.b607d6e6703b2c1e077c.png",
     "index.html": "/AI_HACKATHON_2026/index.html",
-    "main.9b3258c2.css.map": "/AI_HACKATHON_2026/static/css/main.9b3258c2.css.map",
-    "main.18bdeb93.js.map": "/AI_HACKATHON_2026/static/js/main.18bdeb93.js.map"
+    "main.8b4fde46.css.map": "/AI_HACKATHON_2026/static/css/main.8b4fde46.css.map",
+    "main.acf3f817.js.map": "/AI_HACKATHON_2026/static/js/main.acf3f817.js.map"
   },
   "entrypoints": [
-    "static/css/main.9b3258c2.css",
-    "static/js/main.18bdeb93.js"
+    "static/css/main.8b4fde46.css",
+    "static/js/main.acf3f817.js"
   ]
 }
