@@ -1,56 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 import Sidebar from '../Sidebar/Sidebar';
 import TopBar from '../TopBar/TopBar';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './Pipeline.css';
 
-const candidates = [
-  {
-    id: 1,
-    name: 'Purni Sharma',
-    role: 'Java Developer',
-    stage: 'Applied',
-    skills: 'SQL',
-    lastActivity: 'Apr 04, 2024',
-    score: 80,
-  },
-  {
-    id: 2,
-    name: 'Aman Patel',
-    role: 'Frontend Developer',
-    stage: 'Shortlisted',
-    skills: 'React',
-    lastActivity: 'Apr 27, 2024',
-    score: 78,
-  },
-  {
-    id: 3,
-    name: 'Rohan Gupta',
-    role: 'Full Stack Developer',
-    stage: 'Selected',
-    skills: 'Node.js',
-    lastActivity: 'Apr 04, 2024',
-    score: 90,
-  },
-  {
-    id: 4,
-    name: 'Sakshi Verma',
-    role: 'UI/UX Designer',
-    stage: 'Shortlisted',
-    skills: 'Figma',
-    lastActivity: 'Apr 26, 2024',
-    score: 75,
-  },
-  {
-    id: 5,
-    name: 'Vikram Singh',
-    role: 'DevOps Engineer',
-    stage: 'Selected',
-    skills: 'AWS',
-    lastActivity: 'Apr 25, 2024',
-    score: 88,
-  },
-];
+// ✅ ENV
+const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 function Pipeline() {
   const navigate = useNavigate();
@@ -60,27 +15,76 @@ function Pipeline() {
   const [jobFilter, setJobFilter] = useState('All Jobs');
   const [stageFilter, setStageFilter] = useState('All Stages');
 
+  const [candidates, setCandidates] = useState([]);
+
   const toggleSidebar = () => {
     setIsSidebarOpen(prev => !prev);
   };
 
-  // 🔍 FILTER LOGIC
+  // ---------------- FETCH FROM API ----------------
+  const fetchCandidates = async () => {
+    try {
+      const res = await fetch(`${BASE_URL}/candidates`);
+      const data = await res.json();
+
+      const list = Array.isArray(data) ? data : data.content || [];
+
+      const formatted = list.map((c) => ({
+        id: c.id,
+        name: c.fullName,
+        role: c.department,
+        stage: formatStage(c.currentStage),
+        skills: c.skills,
+        lastActivity: c.updatedAt?.split('T')[0],
+        score: Math.floor(Math.random() * 30) + 70, // dummy score (optional)
+      }));
+
+      setCandidates(formatted);
+
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchCandidates();
+  }, []);
+
+  // ---------------- STAGE FORMAT ----------------
+  const formatStage = (stage) => {
+    switch (stage) {
+      case 'APPLIED': return 'Applied';
+      case 'SCREENING': return 'Screening';
+      case 'TECH_INTERVIEW': return 'Shortlisted'; // mapped
+      case 'HR_INTERVIEW': return 'Shortlisted';
+      case 'SELECTED': return 'Selected';
+      case 'REJECTED': return 'Rejected';
+      default: return stage;
+    }
+  };
+
+  // ---------------- FILTER ----------------
   const filteredCandidates = candidates.filter((c) => {
     return (
       (jobFilter === 'All Jobs' || c.role === jobFilter) &&
       (stageFilter === 'All Stages' || c.stage === stageFilter) &&
-      (c.name.toLowerCase().includes(search.toLowerCase()) ||
-        c.skills.toLowerCase().includes(search.toLowerCase()))
+      (
+        c.name.toLowerCase().includes(search.toLowerCase()) ||
+        c.skills.toLowerCase().includes(search.toLowerCase())
+      )
     );
   });
 
-  // 📊 GROUP BY STAGE
+  // ---------------- GROUP ----------------
   const grouped = {
     Applied: filteredCandidates.filter(c => c.stage === 'Applied'),
-    Shortlisted: filteredCandidates.filter(c => c.stage === 'Shortlisted'),
+    Shortlisted: filteredCandidates.filter(
+      c => c.stage === 'Shortlisted' || c.stage === 'Screening'
+    ),
     Selected: filteredCandidates.filter(c => c.stage === 'Selected'),
   };
 
+  // ---------------- CARD ----------------
   const renderColumn = (title, list) => (
     <div className="pipeline-column">
       <h3 className="column-title">{title}</h3>
@@ -108,6 +112,7 @@ function Pipeline() {
     </div>
   );
 
+  // ---------------- UI ----------------
   return (
     <div className="app-layout">
       <Sidebar isOpen={isSidebarOpen} />
@@ -132,11 +137,9 @@ function Pipeline() {
 
               <select onChange={(e) => setJobFilter(e.target.value)}>
                 <option>All Jobs</option>
-                <option>Java Developer</option>
-                <option>Frontend Developer</option>
-                <option>Full Stack Developer</option>
-                <option>UI/UX Designer</option>
-                <option>DevOps Engineer</option>
+                <option>ENGINEERING</option>
+                <option>HR</option>
+                <option>SALES</option>
               </select>
 
               <select onChange={(e) => setStageFilter(e.target.value)}>

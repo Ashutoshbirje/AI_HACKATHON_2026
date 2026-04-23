@@ -7,3 +7,13 @@ src/
 ├── App.jsx
 ├── App.css
 └── main.jsx
+
+YET TO ADD (postman)
+
+GET CANDIDATE BY PAGINATION 
+
+GET CANDIDATE BY NAME 
+
+TODO (Frontend)
+
+Pipleline 

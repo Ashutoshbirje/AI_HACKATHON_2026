@@ -1,18 +1,21 @@
 import { useState, useEffect } from 'react';
 import Sidebar from '../Sidebar/Sidebar';
 import TopBar from '../TopBar/TopBar';
+import AddJobModal from '../AddJobModal/AddJobModal'; // ✅ import modal
 import './Jobs.css';
 
 function Jobs() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-
   const [jobs, setJobs] = useState([]);
 
-  const [title, setTitle] = useState('');
-  const [manager, setManager] = useState('');
-  const [file, setFile] = useState(null);
+  const [search, setSearch] = useState('');
+  const [managerFilter, setManagerFilter] = useState('All Managers');
+  const [sortBy, setSortBy] = useState('Latest');
 
   const [activeMenuId, setActiveMenuId] = useState(null);
+
+  // ✅ NEW: modal state
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(prev => !prev);
@@ -32,26 +35,9 @@ function Jobs() {
     };
   }, []);
 
-  // ✅ Add Job
-  const handleAddJob = () => {
-    if (!title || !manager || !file) {
-      alert('All fields required');
-      return;
-    }
-
-    const newJob = {
-      id: Date.now(),
-      title,
-      manager,
-      fileName: file.name,
-      lastUpdated: new Date().toISOString().split('T')[0],
-    };
-
+  // ✅ Add Job FROM MODAL
+  const handleAddJob = (newJob) => {
     setJobs(prev => [...prev, newJob]);
-
-    setTitle('');
-    setManager('');
-    setFile(null);
   };
 
   // ✅ Delete
@@ -60,7 +46,6 @@ function Jobs() {
     setActiveMenuId(null);
   };
 
-  // ✅ Placeholder actions
   const handleView = (job) => {
     console.log('View:', job);
   };
@@ -68,6 +53,24 @@ function Jobs() {
   const handleEdit = (job) => {
     console.log('Edit:', job);
   };
+
+  // ✅ FILTER
+  let filtered = jobs.filter((j) =>
+    (managerFilter === 'All Managers' || j.manager === managerFilter) &&
+    (
+      j.title.toLowerCase().includes(search.toLowerCase()) ||
+      j.manager.toLowerCase().includes(search.toLowerCase())
+    )
+  );
+
+  // ✅ SORT
+  if (sortBy === 'Name') {
+    filtered.sort((a, b) => a.title.localeCompare(b.title));
+  } else if (sortBy === 'Oldest') {
+    filtered.sort((a, b) => new Date(a.lastUpdated) - new Date(b.lastUpdated));
+  } else {
+    filtered.sort((a, b) => new Date(b.lastUpdated) - new Date(a.lastUpdated));
+  }
 
   return (
     <div className="app-layout">
@@ -77,34 +80,54 @@ function Jobs() {
         <TopBar toggleSidebar={toggleSidebar} />
 
         <main className="jobs-main">
+
           {/* HEADER */}
           <div className="jobs-header">
-            <h2>Jobs</h2>
-          </div>
+            <h2 className="jobs-title">Jobs</h2>
 
-          {/* FORM */}
-          <div className="job-form">
-            <input
-              type="text"
-              placeholder="Job Title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
+            <div className="jobs-header-right">
 
-            <input
-              type="text"
-              placeholder="Hiring Manager"
-              value={manager}
-              onChange={(e) => setManager(e.target.value)}
-            />
+              {/* FILTERS */}
+              <div className="jobs-filters">
+                <select
+                  className="filter-select"
+                  onChange={(e) => setManagerFilter(e.target.value)}
+                >
+                  <option>All Managers</option>
+                  <option>HR Manager</option>
+                  <option>Tech Lead</option>
+                </select>
 
-            <input
-              type="file"
-              accept=".pdf"
-              onChange={(e) => setFile(e.target.files[0])}
-            />
+                <select
+                  className="filter-select"
+                  onChange={(e) => setSortBy(e.target.value)}
+                >
+                  <option value="Latest">Sort: Latest</option>
+                  <option value="Oldest">Sort: Oldest</option>
+                  <option value="Name">Sort: Name</option>
+                </select>
+              </div>
 
-            <button onClick={handleAddJob}>Create Job</button>
+              {/* SEARCH */}
+              <div className="search-box">
+                <span className="search-icon">🔍</span>
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+              </div>
+
+              {/* ✅ UPDATED BUTTON */}
+              <button
+                className="btn-add-job"
+                onClick={() => setIsModalOpen(true)}
+              >
+                + Add Job
+              </button>
+
+            </div>
           </div>
 
           {/* TABLE */}
@@ -121,20 +144,17 @@ function Jobs() {
               </thead>
 
               <tbody>
-                {jobs.map((job) => (
-                  <tr key={job.id}>
+                {filtered.map((job) => (
+                  <tr key={job.id} className="job-row">
                     <td>{job.title}</td>
                     <td>{job.manager}</td>
                     <td>{job.lastUpdated}</td>
 
-                    {/* PDF DISPLAY */}
                     <td>
-                      <span className="pdf-link">
-                        📄 {job.fileName}
-                      </span>
+                      <span className="pdf-link">📄 {job.fileName}</span>
                     </td>
 
-                    {/* MENU */}
+                    {/* ACTION MENU */}
                     <td style={{ position: 'relative' }}>
                       <button
                         className="more-btn"
@@ -145,7 +165,7 @@ function Jobs() {
                           );
                         }}
                       >
-                        ⋮
+                         ⋮
                       </button>
 
                       {activeMenuId === job.id && (
@@ -163,29 +183,21 @@ function Jobs() {
                             </button>
                           </div>
 
-                          <div
-                            className="dropdown-item"
-                            onClick={() => handleView(job)}
-                          >
+                          <div className="dropdown-item" onClick={() => handleView(job)}>
                             👁 View
                           </div>
 
-                          <div
-                            className="dropdown-item"
-                            onClick={() => handleEdit(job)}
-                          >
+                          <div className="dropdown-item" onClick={() => handleEdit(job)}>
                             ✏ Edit
                           </div>
 
-                          <div
-                            className="dropdown-item delete"
-                            onClick={() => handleDelete(job.id)}
-                          >
+                          <div className="dropdown-item delete" onClick={() => handleDelete(job.id)}>
                             🗑 Delete
                           </div>
                         </div>
                       )}
                     </td>
+
                   </tr>
                 ))}
               </tbody>
@@ -193,13 +205,20 @@ function Jobs() {
           </div>
 
           {/* EMPTY */}
-          {jobs.length === 0 && (
-            <p style={{ textAlign: 'center', marginTop: '20px' }}>
-              No jobs created
-            </p>
+          {filtered.length === 0 && (
+            <p className="no-data">No jobs found</p>
           )}
+
         </main>
       </div>
+
+      {/* ✅ ADD JOB MODAL */}
+      <AddJobModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onAdd={handleAddJob}
+      />
+
     </div>
   );
 }

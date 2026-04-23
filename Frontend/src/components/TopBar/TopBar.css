@@ -1,3 +1,4 @@
+/* Topbar Layout */
 .topbar {
   height: 52px;
   background: var(--color-white);
@@ -11,54 +12,158 @@
   z-index: 10;
 }
 
+/* Hamburger */
 .topbar-hamburger {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
   cursor: pointer;
 }
 
 .topbar-hamburger span {
   display: block;
-  width: 20px;
+  width: 22px;
   height: 2px;
-  background: var(--color-navy);
-  border-radius: 2px;
+  background: rgb(46, 3, 3);
+  margin: 4px 0;
 }
 
+/* Right Actions */
 .topbar-actions {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 15px;
 }
 
 .topbar-icon-btn {
+  position: relative;
   background: none;
   border: none;
-  font-size: 1.1rem;
+  color: white;
+  font-size: 18px;
   cursor: pointer;
-  padding: 4px 6px;
-  border-radius: 50%;
-  position: relative;
-  transition: background 0.15s;
 }
 
-.topbar-icon-btn:hover {
-  background: var(--color-bg);
-}
-
+/* Badge */
 .notif-badge {
   position: absolute;
-  top: 0;
-  right: 0;
-  background: var(--color-danger);
+  top: -5px;
+  right: -8px;
+  background: red;
   color: white;
-  font-size: 0.6rem;
-  font-weight: 700;
-  width: 14px;
-  height: 14px;
+  font-size: 10px;
+  padding: 2px 6px;
   border-radius: 50%;
+}
+
+/* Wrapper */
+.notification-wrapper {
+  position: relative;
+}
+
+/* Panel */
+.notification-panel {
+  position: absolute;
+  top: 45px;
+  right: 0;
+  width: 300px;
+  background: white;
+  color: black;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  z-index: 100;
+}
+
+/* Header */
+.panel-header {
   display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  font-weight: bold;
+  border-bottom: 1px solid #eee;
+}
+
+/* Body */
+.panel-body {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+/* Empty */
+.empty {
+  text-align: center;
+  padding: 15px;
+  color: gray;
+}
+
+/* Notification Card */
+.notif-card {
+  background: white;
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin: 8px;
+  border: 1px solid #eee;
+  transition: 0.2s;
+}
+
+/* Unread */
+.notif-card.unread {
+  background: #f5faff;
+  border-left: 4px solid #007bff;
+}
+
+/* Read */
+.notif-card.read {
+  opacity: 0.6;
+}
+
+/* Header Row */
+.notif-header {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
+}
+
+/* Time */
+.notif-time {
+  font-size: 12px;
+  color: gray;
+}
+
+/* Message */
+.notif-message {
+  margin-top: 5px;
+  font-size: 13px;
+  color: #333;
+}
+
+/* Mark Read */
+.mark-read-btn {
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #007bff;
+  font-size: 10px;
+}
+/* Badge */
+.notif-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: red;
+  color: white;
+  font-size: 11px;
+  padding: 3px 6px;
+  border-radius: 50%;
+}
+
+/* ❌ Close icon */
+.notif-close {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: #111;
+  color: white;
+  font-size: 10px;
+  padding: 3px 5px;
+  border-radius: 50%;
+  cursor: pointer;
 }
