@@ -6,7 +6,6 @@
 > /home/ashutosh/Documents/H_F/Hackethon/AI_HACKATHON_2026/Backend/src/main/java/HrmsApplication.java  run this file 
 > API point Testing 
 
-
 mvn clean install
 mvn spring-boot:run
 
@@ -101,21 +100,12 @@ mvn spring-boot:run
 
         </plugins>
     </build>
-
 </project>
 
-
 Yet to Add 
-
  
 IMPORTANT
- 
-Candidate DELETE
- 
-Resume field in Candidate Schema having Documents supported data type
- 
-POST route for (PDF)  
- 
+  
 AI Assistant (Chat history, Parameter + CRUD )
  
 OPTIONAL
@@ -133,3 +123,12 @@ Setting page (Parameter + CRUD)
 User Profile (Parameter + CRUD)
  
 Reports (Pie chart, Graph and much more)
+
+ISSUE 
+
+2 Names 1 emails > INVALID CASE WORKING 
+
+1 Names 2 emails > INVALID CASE 
+
+Show exact error why error is there while form fill up 
+

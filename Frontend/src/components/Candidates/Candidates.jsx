@@ -169,7 +169,7 @@ const clearNotifications = () => {
 
   // ---------------- VIEW ----------------
   const handleView = (id) => {
-    navigate(`/candidates/${id}`);
+    navigate(`/candidates/${id}`, { state: { from: 'candidates' } });
   };
 
   // ---------------- EDIT ----------------

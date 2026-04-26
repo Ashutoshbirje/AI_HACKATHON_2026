@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom'; // ✅ ADDED useLocation
 import Sidebar from '../Sidebar/Sidebar';
 import TopBar from '../TopBar/TopBar';
 import './CandidateProfile.css';
@@ -22,6 +22,10 @@ const stages = [
 function CandidateProfile() {
   const navigate = useNavigate();
   const { id } = useParams();
+  const location = useLocation(); // ✅ ADDED
+
+  // ✅ ADDED (detect source)
+  const from = location.state?.from || 'candidates';
 
   const [activeTab, setActiveTab] = useState('Overview');
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -82,6 +86,24 @@ function CandidateProfile() {
     }
   };
 
+const resumeUrl = candidate?.resumeUrl;
+
+  // ✅ ADDED BACK HANDLER
+  const handleBack = () => {
+    if (from === 'pipeline') {
+      navigate('/pipeline');
+    } else {
+      navigate('/candidates');
+    }
+  };
+
+  // ✅ ADDED LABEL HANDLER
+  const getBackLabel = () => {
+    return from === 'pipeline'
+      ? '‹ Back to Pipeline'
+      : '‹ Back to Candidates';
+  };
+
   // ---------------- HELPERS ----------------
   const getInitials = () => {
     return candidate?.firstName?.charAt(0) || '';
@@ -123,8 +145,10 @@ function CandidateProfile() {
 
         <main className="profile-main">
           <div className="profile-breadcrumb">
-            <button className="back-btn" onClick={() => navigate('/candidates')}>
-              ‹ Back to Candidates
+            
+            {/* ✅ UPDATED BACK BUTTON */}
+            <button className="back-btn" onClick={handleBack}>
+              {getBackLabel()}
             </button>
 
             <h2 className="profile-page-title">Candidate Profile</h2>
@@ -256,13 +280,46 @@ function CandidateProfile() {
               </div>
 
               {/* RESUME */}
-              <div className="profile-section-card resume-card">
-                <h4>Resume Preview</h4>
-                <div className="resume-preview">
-                  <span className="pdf-icon">📄</span>
-                  <p className="resume-name">Resume not uploaded</p>
-                </div>
-              </div>
+{/* RESUME */}
+<div className="profile-section-card resume-card">
+  <h4>Resume Preview</h4>
+
+  {candidate?.resumeUrl ? (
+    <>
+      <iframe
+        src={`https://docs.google.com/gview?url=${encodeURIComponent(candidate?.resumeUrl)}&embedded=true`}
+        width="100%"
+        height="300px"
+        style={{
+          border: "none",
+          borderRadius: "12px",
+          overflow: "hidden"
+        }}
+        title="Resume Preview"
+      />
+
+      <div style={{ marginTop: "10px" }}>
+        <a
+          href={`https://docs.google.com/gview?url=${encodeURIComponent(candidate.resumeUrl)}&embedded=true`}
+          target="_blank"
+          rel="noreferrer"
+          style={{ marginRight: "15px" }}
+        >
+          👁 View Full
+        </a>
+
+        <a href={candidate.resumeUrl} download>
+          ⬇ Download
+        </a>
+      </div>
+    </>
+  ) : (
+    <div className="resume-preview">
+      <span className="pdf-icon">📄</span>
+      <p>No Resume Uploaded</p>
+    </div>
+  )}
+</div>
 
             </div>
           )}

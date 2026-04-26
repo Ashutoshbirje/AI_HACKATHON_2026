@@ -25,7 +25,8 @@ public class CandidateResponseDto {
 	private String fullName;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
-
+	private String resumeUrl;
+	
 	public Long getId() {
 		return id;
 	}
@@ -153,4 +154,13 @@ public class CandidateResponseDto {
 	public void setUpdatedAt(LocalDateTime updatedAt) {
 		this.updatedAt = updatedAt;
 	}
+
+public String getResumeUrl() {
+    return resumeUrl;
+}
+
+public void setResumeUrl(String resumeUrl) {
+    this.resumeUrl = resumeUrl;
+}
+
 }

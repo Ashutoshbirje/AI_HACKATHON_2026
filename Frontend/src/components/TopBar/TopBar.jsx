@@ -1,18 +1,26 @@
 import { useState, useEffect } from "react";
 import "./TopBar.css";
 
-function TopBar({ toggleSidebar, notifications = [], clearNotifications }) {
+function TopBar({ 
+  toggleSidebar, 
+  notifications = [], 
+  clearNotifications = () => {}   // ✅ SAFE FALLBACK
+}) {
   const [showPanel, setShowPanel] = useState(false);
   const [readMap, setReadMap] = useState({});
 
-  const notifList = [
-    {
-      id: 0,
-      text: "Welcome to SmartHire AI",
-      time: "Now",
-    },
-    ...notifications,
-  ];
+  // ✅ Only show welcome if there are notifications
+  const notifList =
+    notifications.length === 0
+      ? []
+      : [
+          {
+            id: 0,
+            text: "Welcome to SmartHire AI",
+            time: "Now",
+          },
+          ...notifications,
+        ];
 
   const unreadCount = notifList.filter((n) => !readMap[n.id]).length;
 
@@ -24,7 +32,6 @@ function TopBar({ toggleSidebar, notifications = [], clearNotifications }) {
     setReadMap((prev) => ({ ...prev, [id]: true }));
   };
 
-  // 🔥 Auto open when new notification comes
   useEffect(() => {
     if (notifications.length > 0) {
       setShowPanel(true);
@@ -62,11 +69,13 @@ function TopBar({ toggleSidebar, notifications = [], clearNotifications }) {
               <div className="panel-header">
                 <span>Notifications</span>
 
-                {/* ✅ FIXED */}
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    clearNotifications();
+                    if (typeof clearNotifications === "function") {
+                      clearNotifications();   // ✅ SAFE CALL
+                    }
+                    setReadMap({}); // optional reset
                   }}
                 >
                   Clear All
@@ -83,9 +92,7 @@ function TopBar({ toggleSidebar, notifications = [], clearNotifications }) {
                     return (
                       <div
                         key={notif.id}
-                        className={`notif-card ${
-                          isRead ? "read" : "unread"
-                        }`}
+                        className={`notif-card ${isRead ? "read" : "unread"}`}
                       >
                         <div className="notif-header">
                           <span className="notif-time">

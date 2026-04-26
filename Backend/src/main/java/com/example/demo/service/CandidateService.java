@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.dto.CandidateRequestDto;
 import com.example.demo.dto.CandidateResponseDto;
@@ -19,6 +20,8 @@ public interface CandidateService {
 
 	void deleteCandidate(Long id);
 
+	String uploadResume(MultipartFile file);
+	
 	CandidateResponseDto updatePipelineStage(Long id, String stage);
 
 	List<CandidateResponseDto> searchCandidatesByName(String name);

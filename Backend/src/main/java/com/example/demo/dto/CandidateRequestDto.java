@@ -23,6 +23,7 @@ public class CandidateRequestDto {
 	private String currentCtc;
 	private String education;
 	private PipelineStage currentStage;
+	private String resumeUrl; // optional if uploading separately
 
 	public String getFirstName() {
 		return firstName;
@@ -119,5 +120,14 @@ public class CandidateRequestDto {
 	public void setCurrentStage(PipelineStage currentStage) {
 		this.currentStage = currentStage;
 	}
+	
+
+	public String getResumeUrl() {
+    return resumeUrl;
+}
+
+public void setResumeUrl(String resumeUrl) {
+    this.resumeUrl = resumeUrl;
+}
 
 }

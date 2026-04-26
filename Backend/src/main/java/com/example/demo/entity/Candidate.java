@@ -56,6 +56,9 @@ public class Candidate {
 	@Enumerated(EnumType.STRING)
 	private Department department;
 
+	@Column(name = "resume_url")
+    private String resumeUrl;
+
 	@Column(columnDefinition = "TEXT")
 	private String skills; // comma-separated, e.g., "Java,Spring,PostgreSQL"
 

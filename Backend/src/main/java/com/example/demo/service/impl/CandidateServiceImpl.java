@@ -1,13 +1,19 @@
 package com.example.demo.service.impl;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.example.demo.dto.CandidateRequestDto;
 import com.example.demo.dto.CandidateResponseDto;
 import com.example.demo.entity.Candidate;
@@ -25,6 +31,22 @@ public class CandidateServiceImpl implements CandidateService {
 
 	private final CandidateRepository candidateRepository;
 
+	@Autowired
+private Cloudinary cloudinary;
+
+@Override
+public String uploadResume(MultipartFile file) {
+    try {
+		Map uploadResult = cloudinary.uploader().upload(
+			file.getBytes(),
+			ObjectUtils.asMap("resource_type", "raw")
+		);
+        return uploadResult.get("secure_url").toString();
+    } catch (IOException e) {
+        throw new RuntimeException("Failed to upload file");
+    }
+}
+
 	@Override
 	public CandidateResponseDto createCandidate(CandidateRequestDto dto) {
 		Candidate candidate = new Candidate();
@@ -33,6 +55,7 @@ public class CandidateServiceImpl implements CandidateService {
 		candidate.setEmail(dto.getEmail());
 		candidate.setPhone(dto.getPhone());
 		candidate.setLocation(dto.getLocation());
+		candidate.setResumeUrl(dto.getResumeUrl());
 		candidate.setYearsOfExperience(dto.getYearsOfExperience());
 		candidate.setDepartment(dto.getDepartment());
 		candidate.setSkills(dto.getSkills());
@@ -127,6 +150,7 @@ public class CandidateServiceImpl implements CandidateService {
 		dto.setFullName(candidate.getFullName());
 		dto.setCreatedAt(candidate.getCreatedAt());
 		dto.setUpdatedAt(candidate.getUpdatedAt());
+		 dto.setResumeUrl(candidate.getResumeUrl());
 		return dto;
 	}
 }

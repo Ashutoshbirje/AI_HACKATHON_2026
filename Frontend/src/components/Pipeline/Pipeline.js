@@ -94,7 +94,7 @@ function Pipeline() {
           <div
             key={c.id}
             className="candidate-card"
-            onClick={() => navigate(`/candidates/${c.id}`)}
+            onClick={() => navigate(`/candidates/${c.id}`, { state: { from: 'pipeline' } })}
           >
             <div className="card-avatar">
               {c.name.split(' ').map(n => n[0]).join('')}

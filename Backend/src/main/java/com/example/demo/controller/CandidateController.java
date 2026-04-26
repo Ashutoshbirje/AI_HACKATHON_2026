@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.dto.CandidateRequestDto;
 import com.example.demo.dto.CandidateResponseDto;
@@ -71,6 +72,12 @@ public class CandidateController {
 	public ResponseEntity<CandidateResponseDto> updatePipelineStage(@PathVariable Long id, @RequestParam String stage) {
 		CandidateResponseDto updatedCandidate = candidateService.updatePipelineStage(id, stage);
 		return ResponseEntity.ok(updatedCandidate);
+	}
+
+	@PostMapping("/upload-resume")
+	public ResponseEntity<String> uploadResume(@RequestParam("file") MultipartFile file) {
+		String url = candidateService.uploadResume(file);
+		return ResponseEntity.ok(url);
 	}
 
 	@GetMapping("/search")
