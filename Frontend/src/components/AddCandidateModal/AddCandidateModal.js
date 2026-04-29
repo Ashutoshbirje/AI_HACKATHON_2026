@@ -88,7 +88,7 @@ function AddCandidateModal({ isOpen, onClose, onAdd, editData }) {
 
       name: `${editData.firstName || ''} ${editData.lastName || ''}`.trim(),
       email: editData.email || '',
-      jobTitle: editData.department || '',
+      // jobTitle: editData.department || '',
 
       // 👇 map additional fields safely
       phone: editData.phone || prev.phone,
@@ -99,7 +99,7 @@ function AddCandidateModal({ isOpen, onClose, onAdd, editData }) {
       currentCtc: editData.currentCtc || prev.currentCtc,
       education: editData.education || prev.education,
       currentStage: editData.currentStage || prev.currentStage,
-
+      currentJobTitle: editData.currentJobTitle || prev.currentJobTitle,
       skills: editData.skills || prev.skills,
       resume: null, // keep as is
     }));
@@ -111,7 +111,7 @@ function AddCandidateModal({ isOpen, onClose, onAdd, editData }) {
   if (!isOpen) return null;
 
   // ---------------- INPUT ----------------
-  const handleChange = (e) => {
+  const handleChange = async (e) => {
     const { name, value, files } = e.target;
 
     if (name === 'resume') {
@@ -119,8 +119,8 @@ function AddCandidateModal({ isOpen, onClose, onAdd, editData }) {
       setForm({ ...form, resume: file });
 
       // 🔥 Upload + Parse both
-      handleFileUpload(file);
-      parseResume(file);
+      await handleFileUpload(file);
+      await parseResume(file);
 
     } else {
       setForm({ ...form, [name]: value });
@@ -182,9 +182,9 @@ const parseResume = async (file) => {
   parsed?.name?.raw ||
   `${parsed?.firstName || ""} ${parsed?.lastName || ""}`.trim();
 
-  const firstName = parsed?.firstName || "";
-const middleName = parsed?.middleName || "";
-const lastName = parsed?.lastName || "";
+    const firstName = parsed?.firstName || "";
+    const middleName = parsed?.middleName || "";
+    const lastName = parsed?.lastName || "";
 
     const email =
       parsed?.email ||
@@ -226,10 +226,7 @@ const lastName = parsed?.lastName || "";
     const careerObjective = parsed?.careerObjective || "";
 
     // ================= JOB =================
-    const jobTitle =
-      parsed?.currentJobTitle ||
-      (parsed?.experience?.[0]?.jobTitle) ||
-      "";
+ 
 
     const currentCompany =
       parsed?.currentCompany ||
@@ -311,7 +308,6 @@ const lastName = parsed?.lastName || "";
       totalExperienceYears,
       yearsOfExperience: totalExperienceYears,
 
-      currentJobTitle: jobTitle,
       currentCompany,
       domain,
 
@@ -335,7 +331,7 @@ const lastName = parsed?.lastName || "";
 
       // UI compatibility
       skills,
-      department: jobTitle,
+      // department,
 
       currentStage
     }));
@@ -493,9 +489,9 @@ const handleSubmit = async (e) => {
 
           <input
             type="text"
-            name="jobTitle"
+            name="currentJobTitle"
             placeholder="Job Role"
-            value={form.jobTitle}
+            value={form.currentJobTitle}
             onChange={handleChange}
           />
 
